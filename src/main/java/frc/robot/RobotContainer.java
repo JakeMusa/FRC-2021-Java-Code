@@ -7,16 +7,16 @@
 
 package frc.robot;
 
-import java.util.Arrays;
-
+import java.io.IOException;
+import java.nio.file.Path;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.CurvatureDrive;
@@ -120,7 +120,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
       //shooter control 
       JoystickButton shootButton = new JoystickButton(driver, XboxController.Button.kA.value);
-      shootButton.whileHeld(new ShootBall(shooter));
+      shootButton.toggleWhenPressed(new ShootBall(shooter));
       //intake control
       JoystickButton intakeButton = new JoystickButton(driver, XboxController.Button.kB.value);
       intakeButton.toggleWhenPressed(new IntakeBall(intake));
@@ -147,13 +147,25 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
 
 
-
+      //create trajectory and max speed so robot doesn't kill a child 
       TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(2),Units.feetToMeters(2));
       config.setKinematics(driveTrain.getKinematics());
       
-      Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-        Arrays.asList(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(1.0,0,new Rotation2d(0))),config);
+      Trajectory trajectory = new Trajectory();
+      //different paths 
+      //String trajectoryJSON = "output/Bounce(CertafiedFreak).wpilib.json";    
+      //String trajectoryJSON = "output/AnotherTestPath(CryEmoji).wpilib.json";   
+      String trajectoryJSON = "output/Test2.wpilib.json";    
 
+
+      
+    //try to find generated path
+    try{
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    }catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+    }
         RamseteCommand command = new RamseteCommand(
           trajectory,
           driveTrain::getPose, 
@@ -166,7 +178,7 @@ public class RobotContainer {
           driveTrain::setOutputs, 
           driveTrain);
 
-          
+
           return command; 
   }
 
