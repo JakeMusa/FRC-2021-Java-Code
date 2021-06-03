@@ -27,16 +27,16 @@ public class Shooter extends SubsystemBase {
     leftShooter.restoreFactoryDefaults();
     leftShooter.setInverted(true);
     leftShooter.setIdleMode(IdleMode.kCoast);
-    leftShooter.setClosedLoopRampRate(Constants.SHOOT_RAMP);
-    leftShooter.setOpenLoopRampRate(Constants.SHOOT_RAMP);
+    // leftShooter.setClosedLoopRampRate(Constants.SHOOT_RAMP);
+    // leftShooter.setOpenLoopRampRate(Constants.SHOOT_RAMP);
 
 
     rightShooter = new CANSparkMax(Constants.RIGHT_SHOOT, MotorType.kBrushless);
     rightShooter.restoreFactoryDefaults();
     rightShooter.setInverted(false);
     rightShooter.setIdleMode(IdleMode.kCoast);
-    rightShooter.setClosedLoopRampRate(Constants.SHOOT_RAMP);
-    rightShooter.setOpenLoopRampRate(Constants.SHOOT_RAMP);
+    // rightShooter.setClosedLoopRampRate(Constants.SHOOT_RAMP);
+    // rightShooter.setOpenLoopRampRate(Constants.SHOOT_RAMP);
   }
 
   @Override

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,10 +14,12 @@ public class Index extends SubsystemBase {
   VictorSP indexMotor;
   VictorSP plateMotor;
 
+
   /** Creates a new Index. */
   public Index() {
     indexMotor = new VictorSP(Constants.INDEX_MOTOR);
     plateMotor = new VictorSP(Constants.PLATE_MOTOR);
+   
   }
   //spin index 
   public void indexBall(double speed){
@@ -26,6 +29,7 @@ public class Index extends SubsystemBase {
   //spin index plate
   public void spinPlate(double speed){
       plateMotor.set(speed);
+      
   }
   
   //stop index

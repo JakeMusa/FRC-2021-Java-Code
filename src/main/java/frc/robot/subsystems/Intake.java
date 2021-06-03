@@ -33,6 +33,7 @@ public class Intake extends SubsystemBase {
   }
   public void intakeBall(double speed){
      //rightPiston.set(Value.kForward);
+     
      leftPiston.set(Value.kReverse);
       intakeMotor.set(speed);
       }

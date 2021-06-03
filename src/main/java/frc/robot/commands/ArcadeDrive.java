@@ -32,7 +32,6 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
       driveTrain.arcadeDrive(RobotContainer.driver, Constants.DRIVESPEED);
-      //driveTrain.curvatureDrive(RobotContainer.driver, Constants.DRIVESPEED);
   }
 
   // Called once the command ends or is interrupted.
